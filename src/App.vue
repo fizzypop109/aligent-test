@@ -1,47 +1,55 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
-</script>
-
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <HeaderBar @searchFor="SearchFor(true, $event)" />
+  <div class="main-window grid grid-cols-2">
+    <Results :resultArray="searchResults" @selectedResult="SearchFor(false, $event);"/>
+    <SelectedDetails :selected="selectedResult"/>
+  </div>
 </template>
 
+<script lang="ts" setup>
+import { ref } from 'vue';
+import HeaderBar from './components/HeaderBar.vue'
+import Results from './components/Results.vue'
+import SelectedDetails from './components/SelectedDetails.vue'
+
+const searchResults = ref<[]>([]);
+const selectedResult = ref(null);
+
+// API URL
+const apiUrl = 'http://www.omdbapi.com/?apikey=8fdfe222&';
+
+function SearchFor(general: boolean, searchTerm: string) {
+    const apiUrlFull = general ? `${apiUrl}s="${searchTerm}"` : `${apiUrl}i=${searchTerm}`;
+    
+    // Make a GET request
+    fetch(apiUrlFull)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+      if (general) {
+        searchResults.value = data.Search;
+      }
+      else {
+        selectedResult.value = data;
+        console.log(data);
+      }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+</script>
+
 <style scoped>
-header {
-  line-height: 1.5;
+
+.main-window {
+  height: calc(100svh - var(--header-height));
+  grid-template-columns: 2fr 3fr;
 }
 
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
