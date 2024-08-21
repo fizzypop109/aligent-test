@@ -20,5 +20,41 @@ h1 {
 }
 
 h2 {
-  font-size: 1.2rem;
+  font-size: 0.8rem;
+}
+
+.h2-width {
+  font-size: 0.8rem;
+}
+
+.h3-width {
+  font-size: 0.6rem;
+}
+
+h6, .h6 {
+  font-size: 0.6rem;
+}
+
+@media only screen and (min-width: 768px) {
+  h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    line-height: normal;
+  }
+  
+  h2 {
+    font-size: 1.1rem;
+  }
+  
+  .h2-width {
+    font-size: 1.2vw;
+  }
+  
+  .h3-width {
+    font-size: 1vw;
+  }
+  
+  h6, .h6 {
+    font-size: 0.8rem;
+  }
 }

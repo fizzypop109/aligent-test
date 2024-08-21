@@ -1,54 +1,112 @@
 <template>
-    <div class="details-container overflow-y-auto">
-        <div class="p-[2rem] flex gap-[1rem] items-end">
-            <img :src="selected?.Poster" class="rounded-md h-[22rem]" />
-            <div class="flex flex-col gap-[1rem]">
-                <h1>{{ selected?.Title }}</h1>
-                <div class="flex items-center gap-[0.25rem]">
-                    <p class="rating rounded-md px-[0.5rem]">{{ selected?.Rated }}</p>
-                    <h2>{{ selected?.Year }}</h2>
-                    <p>·</p>
-                    <h2>{{ selected?.Genre }}</h2>
-                    <p>·</p>
-                    <h2>{{ selected?.Runtime.replace(' ', '') }}</h2>
+    <div v-if="selected" class="details-container overflow-y-auto" :class="mobileView ? 'mobile' : 'desktop'">
+        <div class="p-[2rem] info-container">
+            <img :src="selected?.Poster" class="rounded-md w-full h-auto max-h-[22rem] object-contain" />
+            <div class="flex flex-col justify-between">
+                <button class="watchlist-button flex gap-[0.5rem] items-center rounded-md w-max p-[0.5rem] pr-[0.6rem]" @click="toggleWatchlist(selected)">
+                    <Bookmark class="h-[1.2rem]" :class="{'on': isInWatchlist()}"/>
+                    <p>Watchlist</p>
+                </button>
+                <div class="info flex flex-col gap-[1rem]">
+                    <h1>{{ selected?.Title }}</h1>
+                    <div class="flex items-center gap-[0.25rem]">
+                        <p class="rating h2-width rounded-md px-[0.5rem]">{{ selected?.Rated }}</p>
+                        <h2 class="h2-width">{{ selected?.Year }}</h2>
+                        <p class="h2-width">·</p>
+                        <h2 class="h2-width">{{ selected?.Genre }}</h2>
+                        <p class="h2-width">·</p>
+                        <h2 class="h2-width">{{ selected?.Runtime.replace(' ', '') }}</h2>
+                    </div>
+                    <h2 class="h2-width">{{ selected?.Actors }}</h2>
                 </div>
-                <h2>{{ selected?.Actors }}</h2>
             </div>
         </div>
-        <h2 class="details">{{ selected?.Plot }}</h2>
+        <h2 class="details h2-width">{{ selected?.Plot }}</h2>
         <div class="score-container p-[2rem] grid grid-cols-3 justify-between">
-            <div v-for="score in selected?.Ratings" class="score flex flex-col items-center">
-                <h2>{{ score.Value }}</h2>
-                <p>{{ score.Source }}</p>
+            <div v-for="score in selected?.Ratings" :key="score.Source" class="score flex flex-col items-center">
+                <h2 class="h2-width">{{ score.Value }}</h2>
+                <h3 class="h3-width">{{ score.Source }}</h3>
             </div>
         </div>
     </div>
 </template>
 
 <script lang="ts" setup>
+import { type PropType } from 'vue';
+import type { MediaFull } from '../media'
+import Bookmark from './icons/IconBookmark.vue'
+import { watchlist, toggleWatchlist } from '../watchlist'
+import { checkView } from '../isMobile'
+
+const mobileView = checkView();
 
 const props = defineProps({
-    selected: Object
+    selected: Object as PropType<MediaFull>
 });
+
+function isInWatchlist() {
+    return watchlist.value.some(media => media.imdbID === props.selected?.imdbID);
+}
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
-.details {
-    border-block: 1px solid var(--light-grey);
-    padding: 2rem 2rem 2rem 0;
-    margin-left: 2rem;
+.watchlist-button {
+    border: 1px solid black;
+}
+
+.desktop {
+    .info-container {
+        display: grid;
+        grid-template-columns: 2fr 4fr;
+        gap: 1rem;
+    }
+
+    .watchlist-button {
+        align-self: flex-end;
+    }
+
+    .details {
+        border-block: 1px solid var(--light-grey);
+        padding: 2rem 2rem 2rem 0;
+        margin-left: 2rem;
+    }
+}
+
+.mobile {
+    .info-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        align-items: center;
+
+        > div {
+            align-items: flex-start;
+            gap: 1rem;
+        }
+    }
+
+    .details {
+        border-block: 1px solid var(--light-grey);
+        margin-inline: 2rem;
+        padding-block: 2rem;
+        text-align: center;
+    }
+}
+
+.score {
+    text-align: center;
+
+    &:nth-child(2) {
+        border-inline: 1px solid var(--light-grey);
+    }
 }
 
 .rating {
     border: 1px solid black;
     vertical-align: middle;
     line-height: 1.5;
-}
-
-.score:nth-child(2) {
-    border-inline: 1px solid var(--light-grey);
 }
 
 </style>

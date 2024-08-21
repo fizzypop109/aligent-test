@@ -9,7 +9,7 @@ export default {
       'lightest-grey': '#EBEBEB',
       'light-grey': '#C4C4C4',
       'med-grey': '#BBBBBB',
-      'grey': '#666666',
+      'dark-grey': '#666666',
       transparent: 'transparent',
       'white': '#ffffff',
       'black': '#000000',
