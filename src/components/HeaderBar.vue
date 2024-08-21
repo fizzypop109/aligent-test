@@ -1,6 +1,6 @@
 <template>
     <div class="header-bar bg-dark-grey w-full p-[1.5rem] flex justify-between">
-        <Search @searchFor="emit('searchFor', $event)"/>
+        <Search @searchFor="emit('searchFor', $event)" @searchTermChanged="emit('searchTermChanged', $event)"/>
         <div v-if="mobileView" class="flex items-center">
             <button class="flex h-max gap-[0.5rem] items-center bg-white rounded-md p-[0.5rem]" @click="filtersOpen = !filtersOpen">
                 <Filter class="h-[1rem]" :class="{'on': filtersOpen}"/>
@@ -8,6 +8,13 @@
             </button>
         </div>
         <div v-else class="filter-container flex items-center gap-[1rem]">
+            <button 
+                class="mr-[2rem] border-[1px] border-white border-solid rounded-md px-[0.6rem] py-[0.25rem]"
+                :class="watchlistOpen ? 'bg-white text-black': 'text-white'"
+                @click="emit('toggleWatchlist')"
+            >
+                Watchlist
+            </button>
             <YearFilter @filterYear="emit('filterYear', $event)"/>
             <TypeFilter @filterType="emit('filterType', $event)"/>
         </div>
@@ -35,7 +42,11 @@ const mobileView = checkView();
 
 const filtersOpen = ref<boolean>(false);
 
-const emit = defineEmits(['searchFor', 'filterYear', 'filterType']);
+const emit = defineEmits(['searchFor', 'searchTermChanged', 'filterYear', 'filterType', 'toggleWatchlist']);
+
+const props = defineProps({
+    watchlistOpen: Boolean
+});
 
 </script>
 

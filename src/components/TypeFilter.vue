@@ -36,7 +36,7 @@ watch(typeFilter, async (newSelection, oldSelection) => {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 
 label {
     display: flex;
@@ -56,20 +56,20 @@ input[type="radio"] {
   transform: translateY(-0.075em);
   display: grid;
   place-content: center;
-}
 
-input[type="radio"]::before {
-  content: "";
-  width: 0.6em;
-  height: 0.6em;
-  border-radius: 50%;
-  transform: scale(0);
-  transition: 120ms transform ease-in-out;
-  box-shadow: inset 1em 1em white;
-}
+  &::before {
+    content: "";
+    width: 0.6em;
+    height: 0.6em;
+    border-radius: 50%;
+    transform: scale(0);
+    transition: 120ms transform ease-in-out;
+    box-shadow: inset 1em 1em white;
+  }
 
-input[type="radio"]:checked::before {
-  transform: scale(1);
+  &:checked::before {
+    transform: scale(1);
+  }
 }
 
 </style>

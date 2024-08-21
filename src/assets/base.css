@@ -10,7 +10,29 @@ body {
   min-height: 100vh;
   line-height: 1.6;
   font-size: 15px;
+  font-family: 'Chocolates', sans-serif;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Fonts */
+
+@font-face {
+  font-family: Chocolates;
+  font-weight: 400;
+  src: url('../assets/fonts/Chocolates-Regular.otf');
+}
+
+@font-face {
+  font-family: Chocolates;
+  font-weight: 300;
+  src: url('../assets/fonts/Chocolates-Light.otf');
+}
+
+
+@font-face {
+  font-family: Chocolates;
+  font-weight: 500;
+  src: url('../assets/fonts/Chocolates-Medium.otf');
 }

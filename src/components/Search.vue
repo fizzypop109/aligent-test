@@ -6,11 +6,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const searchTerm = ref<string>("");
 
-const emit = defineEmits(['searchFor']);
+const emit = defineEmits(['searchFor', 'searchTermChanged']);
+
+watch(searchTerm, async(oldTerm, newTerm) => {
+    emit('searchTermChanged', searchTerm.value);
+})
 
 function onEnter() {
     emit('searchFor', searchTerm.value);

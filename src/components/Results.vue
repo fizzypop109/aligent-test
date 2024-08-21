@@ -79,7 +79,6 @@ function OnClickResult(id: string) {
     }
 
     &.mobile {
-        border-bottom: 1px solid var(--medium-grey);
         max-width: 100vw;
 
         .result-text {
@@ -93,6 +92,8 @@ function OnClickResult(id: string) {
             flex-direction: row;
             overflow-x: auto;
             overflow-y: hidden;
+
+            border-bottom: 1px solid var(--medium-grey);
 
             height: 0;
             z-index: 0;

@@ -10,8 +10,8 @@
                 <div class="info flex flex-col gap-[1rem]">
                     <h1>{{ selected?.Title }}</h1>
                     <div class="flex items-center gap-[0.25rem]">
-                        <p class="rating h2-width rounded-md px-[0.5rem]">{{ selected?.Rated }}</p>
-                        <h2 class="h2-width">{{ selected?.Year }}</h2>
+                        <p class="rating h3-width rounded-md px-[0.5rem]">{{ selected?.Rated }}</p>
+                        <h2 class="h2-width font-light">{{ selected?.Year }}</h2>
                         <p class="h2-width">·</p>
                         <h2 class="h2-width">{{ selected?.Genre }}</h2>
                         <p class="h2-width">·</p>
