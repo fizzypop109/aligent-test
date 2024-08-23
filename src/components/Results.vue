@@ -16,7 +16,7 @@
             :class="{'bg-lightest-grey': selectedResultId === result?.imdbID}"
             @click="OnClickResult(result?.imdbID)"
         >
-            <img :src="result?.Poster" class="w-[4rem] h-[4rem] max-w-[4rem] object-cover rounded-md" />
+            <img :src="result?.Poster" alt="poster image" class="w-[4rem] h-[4rem] max-w-[4rem] object-cover rounded-md" />
             <div class="result-details flex flex-col">
                 <h2 class="text-black text-md">{{ result?.Title }}</h2>
                 <h6 class="text-med-grey">{{ result?.Year }}</h6>

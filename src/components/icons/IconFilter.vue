@@ -4,7 +4,7 @@
     </svg>
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
 
 path {
     transition: fill 0.5s ease;
@@ -12,6 +12,21 @@ path {
 
 .on path {
     fill: black;
+}
+
+.button path {
+    stroke: white;
+}
+
+.button {
+    path {
+        stroke: white;
+    }
+
+    &.on path {
+        stroke: var(--dark-grey);
+        fill: var(--dark-grey);
+    }
 }
 
 </style>

@@ -1,16 +1,26 @@
 <template>
     <div class="header-bar bg-dark-grey w-full p-[1.5rem] flex justify-between">
         <Search @searchFor="emit('searchFor', $event)" @searchTermChanged="emit('searchTermChanged', $event)"/>
-        <div v-if="mobileView" class="flex items-center">
-            <button class="flex h-max gap-[0.5rem] items-center bg-white rounded-md p-[0.5rem]" @click="filtersOpen = !filtersOpen">
-                <Filter class="h-[1rem]" :class="{'on': filtersOpen}"/>
-                <p>Filters</p>
+        <div v-if="mobileView" class="flex items-center gap-[1rem]">
+            <button 
+                class="flex h-max gap-[0.5rem] items-center border-[1px] border-solid border-white rounded-md p-[0.5rem]"
+                :class="{'bg-white' : watchlistOpen}"
+                @click="emit('toggleWatchlist')"
+            >
+                <Watchlist class="h-[1rem] button" :class="{'on': watchlistOpen}"/>
+            </button>
+            <button 
+                class="flex h-max gap-[0.5rem] items-center border-[1px] border-solid border-white rounded-md p-[0.5rem]" 
+                :class="{'bg-white' : filtersOpen}"
+                @click="filtersOpen = !filtersOpen"
+            >
+                <Filter class="h-[1rem] button" :class="{'on': filtersOpen}"/>
             </button>
         </div>
         <div v-else class="filter-container flex items-center gap-[1rem]">
             <button 
                 class="mr-[2rem] border-[1px] border-white border-solid rounded-md px-[0.6rem] py-[0.25rem]"
-                :class="watchlistOpen ? 'bg-white text-black': 'text-white'"
+                :class="watchlistOpen ? 'bg-white on': 'text-white'"
                 @click="emit('toggleWatchlist')"
             >
                 Watchlist
@@ -33,6 +43,7 @@
 import { checkView } from '../isMobile'
 
 import Filter from './icons/IconFilter.vue'
+import Watchlist from './icons/IconBookmark.vue'
 import Search from './Search.vue'
 import YearFilter from './YearFilter.vue'
 import TypeFilter from './TypeFilter.vue'
@@ -65,6 +76,12 @@ const props = defineProps({
 
     &.open {
         transform: translateY(0);
+    }
+}
+
+.filter-container {
+    button.on {
+        color: var(--dark-grey) !important;
     }
 }
 

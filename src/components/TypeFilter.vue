@@ -44,31 +44,29 @@ label {
 }
 
 input[type="radio"] {
+  box-sizing: border-box;
   appearance: none;
+  outline: none;
   background-color: transparent;
   margin: 0;
-  font: inherit;
-  color: currentColor;
-  width: 1.15em;
-  height: 1.15em;
-  border: 0.15em solid white;
+  padding: 0;
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 0.1rem solid white;
   border-radius: 50%;
-  transform: translateY(-0.075em);
-  display: grid;
-  place-content: center;
 
-  &::before {
-    content: "";
-    width: 0.6em;
-    height: 0.6em;
-    border-radius: 50%;
-    transform: scale(0);
-    transition: 120ms transform ease-in-out;
-    box-shadow: inset 1em 1em white;
-  }
-
-  &:checked::before {
-    transform: scale(1);
+  &:not(:disabled):checked {
+    border-color: white;
+    background-color: white;
+    background-clip: content-box;
+    padding: 2px;
+    background-image: radial-gradient(
+      circle,
+      white 0%,
+      white 50%,
+      transparent 60%,
+      transparent 100%
+    );
   }
 }
 

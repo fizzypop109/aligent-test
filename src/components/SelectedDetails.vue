@@ -1,9 +1,9 @@
 <template>
     <div v-if="selected" class="details-container overflow-y-auto" :class="mobileView ? 'mobile' : 'desktop'">
         <div class="p-[2rem] info-container">
-            <img :src="selected?.Poster" class="rounded-md w-full h-auto max-h-[22rem] object-contain" />
+            <img :src="selected?.Poster" alt="poster image" class="rounded-md w-full h-auto max-h-[22rem] object-contain" />
             <div class="flex flex-col justify-between">
-                <button class="watchlist-button flex gap-[0.5rem] items-center rounded-md w-max p-[0.5rem] pr-[0.6rem]" @click="toggleWatchlist(selected)">
+                <button class="watchlist-button flex gap-[0.5rem] items-center rounded-md w-max p-[0.5rem] pr-[0.6rem]" @click="onClickWatchlist">
                     <Bookmark class="h-[1.2rem]" :class="{'on': isInWatchlist()}"/>
                     <p>Watchlist</p>
                 </button>
@@ -40,9 +40,16 @@ import { checkView } from '../isMobile'
 
 const mobileView = checkView();
 
+const emit = defineEmits(['onClickWatchlist']);
+
 const props = defineProps({
     selected: Object as PropType<MediaFull>
 });
+
+function onClickWatchlist() {
+    toggleWatchlist(props.selected);
+    emit('onClickWatchlist');
+}
 
 function isInWatchlist() {
     return watchlist.value.some(media => media.imdbID === props.selected?.imdbID);

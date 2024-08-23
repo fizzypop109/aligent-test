@@ -2,8 +2,10 @@
 :root {
   --header-height: 6rem;
 
+  --lightest-grey: #EBEBEB;
   --light-grey: #C4C4C4;
   --medium-grey: #BBBBBB;
+  --dark-grey: #666666;
 }
 
 body {

@@ -8,9 +8,9 @@
     @filterType="onFilterByType" 
   />
   <div class="main-window grid" :class="mobileView ? 'mobile' : 'desktop'">
-    <img v-if="loading" class="absolute top-0 bottom-0 left-0 right-0 m-auto w-[5rem] h-[5rem]" src="./assets/images/loading.gif" />
+    <img v-if="loading" alt="loading spinner" class="absolute top-0 bottom-0 left-0 right-0 m-auto w-[5rem] h-[5rem]" src="./assets/images/loading.gif" />
     <Results ref="resultsRef" :resultArray="filteredResults" @selectedResult="specificSearch($event);"/>
-    <SelectedDetails :selected="selectedResult"/>
+    <SelectedDetails :selected="selectedResult" @onClickWatchlist="refreshResults"/>
   </div>
 </template>
 
@@ -43,6 +43,8 @@ const useWatchlist = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const searchTerm = ref<string>("");
 
+let controller : AbortController;
+
 // API base URL
 const apiUrl = 'http://www.omdbapi.com/?apikey=8fdfe222&';
 
@@ -51,7 +53,11 @@ If true, replace results with watchlist results
 Also considering filters */
 function toggleWatchlist() {
   useWatchlist.value = !useWatchlist.value;
+  refreshResults();
+}
 
+/* Reload the results */
+function refreshResults() {
   if (useWatchlist.value) {
     searchResults.value = watchlist.value.filter(item => item.Title.toLowerCase().includes(searchTerm.value.toLowerCase()));
     filter();
@@ -64,8 +70,15 @@ function toggleWatchlist() {
 /* Make a call to the OMBD API
 Pass in the full url to fetch from */
 async function callAPI(url: string) {
+  // Abort any previous request
+  controller?.abort();
+  controller = new AbortController();
+
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      method: 'get',
+      signal: controller.signal,
+    });
 
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
