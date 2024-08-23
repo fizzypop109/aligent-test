@@ -43,6 +43,8 @@ label {
     gap: 0.3rem;
 }
 
+/* Custom radio button */
+
 input[type="radio"] {
   box-sizing: border-box;
   appearance: none;

@@ -12,12 +12,16 @@
         <div class="results" :class="{'open': resultsOpen}">
             <div
             v-for="result in resultArray" :key="result?.imdbID"
-            class="result-container flex gap-[1rem] items-center transition-colors"
+            class="result-container flex gap-[1rem] items-center leading-tight transition-colors"
             :class="{'bg-lightest-grey': selectedResultId === result?.imdbID}"
             @click="OnClickResult(result?.imdbID)"
         >
-            <img :src="result?.Poster" alt="poster image" class="w-[4rem] h-[4rem] max-w-[4rem] object-cover rounded-md" />
-            <div class="result-details flex flex-col">
+            <img v-if="result?.Poster !== 'N/A'" :src="result?.Poster" alt="poster image" class="w-[4rem] h-[4rem] max-w-[4rem] object-cover rounded-md" />
+            <div v-else class="w-[4rem] h-[4rem] min-w-[4rem] min-h-[4rem] grid items-center justify-center text-xl text-white bg-dark-grey max-w-[4rem] object-cover rounded-md">
+                ?
+            </div>
+            
+            <div class="result-details flex flex-col gap-[0.25rem]">
                 <h2 class="text-black text-md">{{ result?.Title }}</h2>
                 <h6 class="text-med-grey">{{ result?.Year }}</h6>
             </div>
@@ -136,19 +140,18 @@ function OnClickResult(id: string) {
     }
 }
 
-/* width */
+/* Scrollbar */
+
 ::-webkit-scrollbar {
   width: 10px;
-}
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: transparent;
-}
+  &-track {
+    background: transparent;
+  }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: var(--medium-grey);
+  &-thumb {
+    background: var(--medium-grey);
+  }
 }
 
 </style>

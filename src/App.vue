@@ -36,7 +36,7 @@ const searchResults = ref<MediaPart[]>([]);
 const yearFilteredResults = ref<MediaPart[]>([]);
 const filteredResults = ref<MediaPart[]>([]);
 
-const selectedResult = ref<MediaFull>();
+const selectedResult = ref<MediaFull | null>();
 
 const yearFilterTriggered = ref<boolean>(false);
 const useWatchlist = ref<boolean>(false);
@@ -111,14 +111,14 @@ async function generalSearch(searchTerm: string) {
     return;
   }
 
-  var allResults = results.Search.filter((result) => result.Type === 'movie' || result.Type === "series" || result.Type === "episode");
+  let allResults: MediaFull[] = [];
 
   var pagesToGoThrough = (Math.ceil(results.totalResults/10) * 10) / 10;
 
   // Make sure to go though each page of the search results to include all matching items from the API
   // Excluding non-movies, series, and episodes
   for(let i = 1; i < pagesToGoThrough; i++) {
-    const pageUrl = `${apiUrlFull}&page=${i + 1}`;
+    const pageUrl = `${apiUrlFull}&page=${i}`;
     const pageResults = await callAPI(pageUrl);
 
     if (pageResults.Response == 'True') {
@@ -134,7 +134,7 @@ async function generalSearch(searchTerm: string) {
   loading.value = false;
 }
 
-/* Call the api with a search a specific piece of media using the imbdID. */
+/* Call the api with a specific piece of media using the imdbID. */
 async function specificSearch(searchTerm: string) {
   selectedResult.value = null;
 

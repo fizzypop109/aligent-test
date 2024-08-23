@@ -1,7 +1,12 @@
 <template>
     <div v-if="selected" class="details-container overflow-y-auto" :class="mobileView ? 'mobile' : 'desktop'">
         <div class="p-[2rem] info-container">
-            <img :src="selected?.Poster" alt="poster image" class="rounded-md w-full h-auto max-h-[22rem] object-contain" />
+
+            <img v-if="selected?.Poster != 'N/A'" :src="selected?.Poster" alt="poster image" class="rounded-md w-full h-auto max-h-[22rem] object-contain" />
+            <div v-else class="rounded-md w-full h-[10rem] max-h-[22rem] object-contain grid items-center align-content-center justify-center text-[3rem] text-white bg-dark-grey">
+                ?
+            </div>
+
             <div class="flex flex-col justify-between">
                 <button class="watchlist-button flex gap-[0.5rem] items-center rounded-md w-max p-[0.5rem] pr-[0.6rem]" @click="onClickWatchlist">
                     <Bookmark class="h-[1.2rem]" :class="{'on': isInWatchlist()}"/>

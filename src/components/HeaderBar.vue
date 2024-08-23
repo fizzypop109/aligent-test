@@ -1,6 +1,7 @@
 <template>
     <div class="header-bar bg-dark-grey w-full p-[1.5rem] flex justify-between">
         <Search @searchFor="emit('searchFor', $event)" @searchTermChanged="emit('searchTermChanged', $event)"/>
+        <!-- Mobile version of the rest of the header -->
         <div v-if="mobileView" class="flex items-center gap-[1rem]">
             <button 
                 class="flex h-max gap-[0.5rem] items-center border-[1px] border-solid border-white rounded-md p-[0.5rem]"
@@ -17,6 +18,7 @@
                 <Filter class="h-[1rem] button" :class="{'on': filtersOpen}"/>
             </button>
         </div>
+        <!-- Desktop version of the rest of the header -->
         <div v-else class="filter-container flex items-center gap-[1rem]">
             <button 
                 class="mr-[2rem] border-[1px] border-white border-solid rounded-md px-[0.6rem] py-[0.25rem]"
@@ -29,6 +31,7 @@
             <TypeFilter @filterType="emit('filterType', $event)"/>
         </div>
     </div>
+    <!-- Mobile version of the filters to allow for toggling open/closed -->
     <div 
         v-if="mobileView" 
         class="filter-container-mobile absolute w-full bg-dark-grey flex flex-col items-center gap-[1rem] p-[1rem]" 
