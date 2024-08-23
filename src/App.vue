@@ -107,6 +107,7 @@ async function generalSearch(searchTerm: string) {
   if (results.Response === 'False') {
     searchResults.value = filteredResults.value = [];
     loading.value = false;
+    resultsRef.value?.toggleResultsVisible(false);
     return;
   }
 
